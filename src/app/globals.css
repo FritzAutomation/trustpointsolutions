@@ -134,33 +134,6 @@
     to { stroke-dashoffset: 0; }
   }
 
-  /* Triangle tessellation — one-shot assembly from cluster origin to final position */
-  @keyframes tri-enter {
-    from {
-      transform: translate(var(--cluster-dx), var(--cluster-dy)) scale(0.05) rotate(-10deg);
-      opacity: 0;
-    }
-    to {
-      transform: translate(0, 0) scale(1) rotate(0deg);
-      opacity: var(--tri-opacity);
-    }
-  }
-
-  /* Triangle breathing — at rest, blow apart, return to rest */
-  @keyframes tri-breathe {
-    0%, 100% {
-      transform: translate(0, 0) scale(1) rotate(0deg);
-      opacity: var(--tri-opacity);
-    }
-    50% {
-      transform:
-        translate(var(--blow-x), var(--blow-y))
-        scale(1.05)
-        rotate(var(--blow-rotate));
-      opacity: calc(var(--tri-opacity) * 0.7);
-    }
-  }
-
   @property --angle {
     syntax: "<angle>";
     initial-value: 0deg;
