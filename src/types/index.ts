@@ -15,6 +15,37 @@ export interface LegalLink {
   url: string;
 }
 
+export interface IdentityCallout {
+  title: string;
+  description: string;
+}
+
+export interface IdentitySpotlightContent {
+  eyebrow?: string;
+  heading?: string;
+  headingEmphasis?: string;
+  intro?: string;
+  callouts?: IdentityCallout[];
+  closing?: string;
+}
+
+/**
+ * Where a pull quote is placed on the homepage. Components reading
+ * pullQuotes filter by this value to render at the right spot.
+ */
+export type PullQuotePlacement =
+  | "after-services"
+  | "after-identity"
+  | "after-stack-effect"
+  | "after-process"
+  | "after-one-price";
+
+export interface PullQuote {
+  placement: PullQuotePlacement;
+  text: string;
+  attribution?: string;
+}
+
 export interface HomePage {
   hero: {
     heading: string;
@@ -23,6 +54,8 @@ export interface HomePage {
     backgroundImage?: SanityImageSource;
   };
   servicesHeading: string;
+  identitySpotlight?: IdentitySpotlightContent;
+  pullQuotes?: PullQuote[];
   trustedPartner: {
     heading: string;
     body: PortableTextBlock[];

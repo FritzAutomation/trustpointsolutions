@@ -1,19 +1,25 @@
 import { client } from "@/lib/sanity/client";
 import { homePageQuery, servicesQuery } from "@/lib/sanity/queries";
-import type { HomePage, Service } from "@/types";
+import type {
+  HomePage,
+  PullQuote as PullQuoteData,
+  PullQuotePlacement,
+  Service,
+} from "@/types";
 import Hero from "@/components/sections/Hero";
 import Stats from "@/components/sections/Stats";
 import Services from "@/components/sections/Services";
+import IdentitySpotlight from "@/components/sections/IdentitySpotlight";
 import StackEffect from "@/components/sections/StackEffect";
 import Process from "@/components/sections/Process";
 import OnePrice from "@/components/sections/OnePrice";
 import TrustedPartner from "@/components/sections/TrustedPartner";
 import ContactForm from "@/components/sections/ContactForm";
+import PullQuote from "@/components/ui/PullQuote";
 
 export const revalidate = 60;
 
-// Fallback content used when Sanity is unavailable.
-// Copy is grounded in the client's own marketing collateral.
+// Fallback content — used when Sanity is unavailable.
 const fallbackHomePage: HomePage = {
   hero: {
     heading: "You run the business — We handle the IT",
@@ -50,6 +56,20 @@ const fallbackHomePage: HomePage = {
     ctaText: "Let's talk",
   },
   servicesHeading: "SERVICES",
+  // Identity spotlight content defaults are baked into the component —
+  // leaving this undefined keeps the component using its own defaults.
+  identitySpotlight: undefined,
+  // Two curated pull quotes pulled from the client's marketing copy.
+  pullQuotes: [
+    {
+      placement: "after-services",
+      text: "It's the difference between a fire alarm and a fire department.",
+    },
+    {
+      placement: "after-stack-effect",
+      text: "The best firewall is an informed workforce.",
+    },
+  ],
   trustedPartner: {
     heading: "YOUR TRUSTED IT PARTNER",
     body: [
@@ -184,6 +204,26 @@ const fallbackServices: Service[] = [
   },
 ];
 
+/**
+ * Each pull quote placement is associated with a dark/light hint — the
+ * section it follows dictates which palette the quote renders against.
+ */
+const placementIsDark: Record<PullQuotePlacement, boolean> = {
+  "after-services": false,        // Services is light → quote is light
+  "after-identity": true,         // Identity spotlight is dark
+  "after-stack-effect": true,     // Stack Effect is dark
+  "after-process": false,         // Process is light
+  "after-one-price": false,       // One Price is light
+};
+
+/** Find the first pull quote matching a placement, if any. */
+function findQuote(
+  quotes: PullQuoteData[] | undefined,
+  placement: PullQuotePlacement
+): PullQuoteData | undefined {
+  return quotes?.find((q) => q.placement === placement);
+}
+
 export default async function Home() {
   let homePage: HomePage = fallbackHomePage;
   let services: Service[] = fallbackServices;
@@ -198,6 +238,13 @@ export default async function Home() {
   } catch {
     // Use fallback content
   }
+
+  const quotes = homePage.pullQuotes;
+  const qAfterServices = findQuote(quotes, "after-services");
+  const qAfterIdentity = findQuote(quotes, "after-identity");
+  const qAfterStack = findQuote(quotes, "after-stack-effect");
+  const qAfterProcess = findQuote(quotes, "after-process");
+  const qAfterOnePrice = findQuote(quotes, "after-one-price");
 
   return (
     <>
@@ -222,9 +269,25 @@ export default async function Home() {
       />
       <Stats />
       <Services heading={homePage.servicesHeading} services={services} />
+      {qAfterServices && (
+        <PullQuote quote={qAfterServices} dark={placementIsDark["after-services"]} />
+      )}
+      <IdentitySpotlight content={homePage.identitySpotlight} />
+      {qAfterIdentity && (
+        <PullQuote quote={qAfterIdentity} dark={placementIsDark["after-identity"]} />
+      )}
       <StackEffect />
+      {qAfterStack && (
+        <PullQuote quote={qAfterStack} dark={placementIsDark["after-stack-effect"]} />
+      )}
       <Process />
+      {qAfterProcess && (
+        <PullQuote quote={qAfterProcess} dark={placementIsDark["after-process"]} />
+      )}
       <OnePrice />
+      {qAfterOnePrice && (
+        <PullQuote quote={qAfterOnePrice} dark={placementIsDark["after-one-price"]} />
+      )}
       <TrustedPartner
         heading={homePage.trustedPartner.heading}
         body={homePage.trustedPartner.body}

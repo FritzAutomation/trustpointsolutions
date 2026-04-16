@@ -23,6 +23,22 @@ export const homePageQuery = groq`
       backgroundImage
     },
     servicesHeading,
+    identitySpotlight {
+      eyebrow,
+      heading,
+      headingEmphasis,
+      intro,
+      callouts[] {
+        title,
+        description
+      },
+      closing
+    },
+    pullQuotes[] {
+      placement,
+      text,
+      attribution
+    },
     trustedPartner {
       heading,
       body
