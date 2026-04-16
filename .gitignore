@@ -47,3 +47,12 @@ next-env.d.ts
 
 # Sanity
 .sanity/
+
+# Claude Code / MCP artifacts
+.claude/
+.playwright-mcp/
+CLAUDE.md
+
+# Local screenshots
+*.png
+!public/**/*.png
