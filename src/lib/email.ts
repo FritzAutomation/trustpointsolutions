@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 interface SendContactEmailParams {
   to: string;
   firstName: string;
@@ -19,6 +17,7 @@ export async function sendContactEmail({
   phone,
   message,
 }: SendContactEmailParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY ?? "placeholder");
   const fullName = [firstName, lastName].filter(Boolean).join(" ");
   const timestamp = new Date().toLocaleString("en-US", {
     dateStyle: "full",
