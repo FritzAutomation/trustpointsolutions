@@ -1,14 +1,13 @@
-import type { DocumentDefinition } from "sanity";
 import type { StructureResolver } from "sanity/structure";
 
 export function singletonPlugin(types: string[]) {
   return {
     name: "singletonPlugin",
     document: {
-      newDocumentOptions: (prev: DocumentDefinition[], { creationContext }: { creationContext: { type: string } }) => {
+      newDocumentOptions: (prev: any[], { creationContext }: { creationContext: { type: string } }) => {
         if (creationContext.type === "global") {
           return prev.filter(
-            (template: DocumentDefinition) => !types.includes(template.templateId ?? "")
+            (template: any) => !types.includes(template.templateId ?? "")
           );
         }
         return prev;
