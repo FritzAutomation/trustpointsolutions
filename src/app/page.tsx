@@ -2,7 +2,9 @@ import { client } from "@/lib/sanity/client";
 import { homePageQuery, servicesQuery } from "@/lib/sanity/queries";
 import type { HomePage, Service } from "@/types";
 import Hero from "@/components/sections/Hero";
+import Stats from "@/components/sections/Stats";
 import Services from "@/components/sections/Services";
+import Process from "@/components/sections/Process";
 import TrustedPartner from "@/components/sections/TrustedPartner";
 import ContactForm from "@/components/sections/ContactForm";
 
@@ -180,7 +182,9 @@ export default async function Home() {
         subheading={homePage.hero.subheading}
         ctaText={homePage.hero.ctaText}
       />
+      <Stats />
       <Services heading={homePage.servicesHeading} services={services} />
+      <Process />
       <TrustedPartner
         heading={homePage.trustedPartner.heading}
         body={homePage.trustedPartner.body}

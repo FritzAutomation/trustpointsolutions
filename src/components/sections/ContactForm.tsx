@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import type { ContactFormData } from "@/types";
 import Button from "@/components/ui/Button";
-import SectionWrapper from "@/components/ui/SectionWrapper";
+
+const inputClass =
+  "peer w-full rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder-transparent backdrop-blur-sm transition-colors duration-200 focus:border-cyan/60 focus:outline-none focus:ring-0";
+
+const labelClass =
+  "pointer-events-none absolute left-4 top-3 origin-left text-sm text-white/50 transition-all duration-200 peer-focus:-translate-y-5 peer-focus:scale-[0.85] peer-focus:text-cyan-light peer-[&:not(:placeholder-shown)]:-translate-y-5 peer-[&:not(:placeholder-shown)]:scale-[0.85] peer-[&:not(:placeholder-shown)]:text-white/70";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -13,7 +19,9 @@ export default function ContactForm() {
     phone: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle"
+  );
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleChange(
@@ -40,126 +48,209 @@ export default function ContactForm() {
       }
 
       setStatus("success");
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
     } catch (err) {
       setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "Something went wrong.");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong."
+      );
     }
   }
 
   return (
-    <SectionWrapper className="bg-navy" id="contact">
-      <div className="mx-auto max-w-lg">
-        <h2 className="mb-8 text-center text-3xl font-bold text-white">
-          Contact Us
-        </h2>
+    <section
+      id="contact"
+      className="cursor-glow-target noise relative overflow-hidden bg-navy-950 py-28"
+    >
+      {/* Ambient glow */}
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full opacity-30"
+        style={{
+          background:
+            "radial-gradient(ellipse, rgba(6, 182, 212, 0.3) 0%, transparent 60%)",
+          filter: "blur(60px)",
+        }}
+      />
+      <div className="absolute inset-0 bg-grid mask-radial-fade opacity-40" />
 
-        {status === "success" ? (
-          <div className="rounded-lg bg-white/10 p-8 text-center">
-            <p className="text-lg font-semibold text-white">
-              Thank you for reaching out!
-            </p>
-            <p className="mt-2 text-white/70">
-              We&apos;ll get back to you as soon as possible.
-            </p>
-            <Button
-              onClick={() => setStatus("idle")}
-              variant="outline"
-              className="mt-6"
-            >
-              Send another message
-            </Button>
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 md:grid-cols-2 lg:gap-20 lg:px-8">
+        {/* Left: pitch */}
+        <div>
+          <div className="eyebrow mb-4 flex items-center gap-3 text-cyan-light">
+            <span className="inline-block h-[1px] w-8 bg-cyan-light/60" />
+            Get in touch
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="firstName" className="mb-1 block text-sm font-medium text-white/80">
-                  First name <span className="text-accent-light">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
+          <h2 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl">
+            Let&apos;s talk about your IT.
+          </h2>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-white/60">
+            Tell us a little about your business and what you need. We&apos;ll
+            follow up within one business day.
+          </p>
+
+          {/* Small signal badges */}
+          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 font-mono-ui text-xs text-white/40">
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
+              Response &lt; 1 business day
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
+              No-obligation consult
+            </span>
+          </div>
+        </div>
+
+        {/* Right: form */}
+        <div className="relative">
+          {status === "success" ? (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-2xl border border-white/10 bg-white/[0.04] p-10 text-center backdrop-blur-sm"
+            >
+              <div className="mb-4 flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 animate-ping rounded-full bg-cyan/30" />
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-cyan/20">
+                    <svg className="h-6 w-6 text-cyan" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M5 12l5 5 9-9"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <p className="font-display text-2xl font-semibold text-white">
+                Message received.
+              </p>
+              <p className="mt-2 text-white/60">
+                We&apos;ll get back to you within one business day.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <Button onClick={() => setStatus("idle")} variant="ghost">
+                  Send another message
+                </Button>
+              </div>
+            </motion.div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm sm:p-8"
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <FloatingInput
+                  label="First name *"
                   name="firstName"
                   required
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
-              </div>
-              <div>
-                <label htmlFor="lastName" className="mb-1 block text-sm font-medium text-white/80">
-                  Last name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
+                <FloatingInput
+                  label="Last name"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
-              </div>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="email" className="mb-1 block text-sm font-medium text-white/80">
-                  Email <span className="text-accent-light">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
+                <FloatingInput
+                  label="Email *"
                   name="email"
+                  type="email"
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
-              </div>
-              <div>
-                <label htmlFor="phone" className="mb-1 block text-sm font-medium text-white/80">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
+                <FloatingInput
+                  label="Phone"
                   name="phone"
+                  type="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
-            </div>
-            <div>
-              <label htmlFor="message" className="mb-1 block text-sm font-medium text-white/80">
-                Message <span className="text-accent-light">*</span>
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={5}
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-2.5 text-white placeholder-white/40 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
 
-            {status === "error" && (
-              <p className="text-sm text-red-400">{errorMessage}</p>
-            )}
+              <div className="mt-5 relative">
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder=" "
+                  className={inputClass + " resize-none"}
+                />
+                <label htmlFor="message" className={labelClass}>
+                  Message *
+                </label>
+              </div>
 
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={status === "sending"}
-              className="w-full"
-            >
-              {status === "sending" ? "Sending..." : "Submit"}
-            </Button>
-          </form>
-        )}
+              {status === "error" && (
+                <p className="mt-4 text-sm text-red-400">{errorMessage}</p>
+              )}
+
+              <div className="mt-8 flex items-center justify-between gap-4">
+                <p className="font-mono-ui text-xs text-white/30">
+                  {status === "sending" ? "TRANSMITTING..." : "READY TO SEND"}
+                </p>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  disabled={status === "sending"}
+                >
+                  {status === "sending" ? "Sending..." : "Send message →"}
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </SectionWrapper>
+    </section>
+  );
+}
+
+function FloatingInput({
+  label,
+  name,
+  type = "text",
+  required,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div className="relative">
+      <input
+        id={name}
+        name={name}
+        type={type}
+        required={required}
+        value={value}
+        onChange={onChange}
+        placeholder=" "
+        className={inputClass}
+      />
+      <label htmlFor={name} className={labelClass}>
+        {label}
+      </label>
+    </div>
   );
 }

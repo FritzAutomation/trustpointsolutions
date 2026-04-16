@@ -1,17 +1,32 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CursorGlow from "@/components/ui/CursorGlow";
 import { client } from "@/lib/sanity/client";
 import { siteSettingsQuery } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
 import type { SiteSettings } from "@/types";
 
-const inter = Inter({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
+});
+
+const body = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-body",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -48,14 +63,18 @@ export default async function RootLayout({
   const logoUrl = settings?.logo ? urlFor(settings.logo).width(320).url() : undefined;
 
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased">
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+    >
+      <body className="font-body antialiased">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
         >
           Skip to Main Content
         </a>
+        <CursorGlow />
         <Navbar
           logoUrl={logoUrl}
           companyName={settings?.companyName ?? "Trust Point IT Solutions"}
