@@ -4,13 +4,16 @@ import type { HomePage, Service } from "@/types";
 import Hero from "@/components/sections/Hero";
 import Stats from "@/components/sections/Stats";
 import Services from "@/components/sections/Services";
+import StackEffect from "@/components/sections/StackEffect";
 import Process from "@/components/sections/Process";
+import OnePrice from "@/components/sections/OnePrice";
 import TrustedPartner from "@/components/sections/TrustedPartner";
 import ContactForm from "@/components/sections/ContactForm";
 
 export const revalidate = 60;
 
-// Fallback content used when Sanity is unavailable (e.g. during local dev without env vars)
+// Fallback content used when Sanity is unavailable.
+// Copy is grounded in the client's own marketing collateral.
 const fallbackHomePage: HomePage = {
   hero: {
     heading: "You run the business — We handle the IT",
@@ -22,7 +25,7 @@ const fallbackHomePage: HomePage = {
           {
             _type: "span",
             _key: "hero-p1-span",
-            text: "Your technology should help your business move faster, not get in the way. As your Managed Service Provider, we take ownership of your IT—monitoring, securing, and supporting everything behind the scenes—so you can stay focused on running and growing your company.",
+            text: "A layered, fully integrated security and support stack that works as hard as you do — covering every angle, every day, for one fixed monthly price.",
             marks: [],
           },
         ],
@@ -36,7 +39,7 @@ const fallbackHomePage: HomePage = {
           {
             _type: "span",
             _key: "hero-p2-span",
-            text: "You get a partner who knows your business—not just your network.",
+            text: "Because \"we'll deal with it if something happens\" is not a security strategy.",
             marks: [],
           },
         ],
@@ -44,7 +47,7 @@ const fallbackHomePage: HomePage = {
         style: "normal",
       },
     ],
-    ctaText: "Contact us",
+    ctaText: "Let's talk",
   },
   servicesHeading: "SERVICES",
   trustedPartner: {
@@ -76,7 +79,14 @@ const fallbackServices: Service[] = [
       {
         _type: "block",
         _key: "s1-p1",
-        children: [{ _type: "span", _key: "s1-p1-span", text: "We monitor and maintain your systems 24/7 to prevent issues before they impact your operations.", marks: [] }],
+        children: [
+          {
+            _type: "span",
+            _key: "s1-p1-span",
+            text: "Every device, server, and workstation under continuous watch. Our RMM platform fires alerts before problems become disasters — and handles the routine remediation, patching, and asset tracking from one pane of glass.",
+            marks: [],
+          },
+        ],
         markDefs: [],
         style: "normal",
       },
@@ -91,7 +101,14 @@ const fallbackServices: Service[] = [
       {
         _type: "block",
         _key: "s2-p1",
-        children: [{ _type: "span", _key: "s2-p1-span", text: "When something breaks, you need answers — fast.", marks: [] }],
+        children: [
+          {
+            _type: "span",
+            _key: "s2-p1-span",
+            text: "When something breaks, you need answers — fast. Real technicians who know your environment, clear communication on timelines, and no tier-one runaround designed to make problems someone else's job.",
+            marks: [],
+          },
+        ],
         markDefs: [],
         style: "normal",
       },
@@ -106,7 +123,14 @@ const fallbackServices: Service[] = [
       {
         _type: "block",
         _key: "s3-p1",
-        children: [{ _type: "span", _key: "s3-p1-span", text: "We safeguard your business against modern threats with layered security, endpoint protection, backups, and best-practice policies.", marks: [] }],
+        children: [
+          {
+            _type: "span",
+            _key: "s3-p1-span",
+            text: "Multi-layered defense — endpoint, email, DNS, identity — that catches what single-layer tools miss. 24/7 human-backed threat hunting, behavioral analysis, and identity-aware detection for the attack that simply logs in with stolen credentials.",
+            marks: [],
+          },
+        ],
         markDefs: [],
         style: "normal",
       },
@@ -121,7 +145,14 @@ const fallbackServices: Service[] = [
       {
         _type: "block",
         _key: "s4-p1",
-        children: [{ _type: "span", _key: "s4-p1-span", text: "From email and collaboration to cloud infrastructure, we manage and optimize the tools your team relies on every day.", marks: [] }],
+        children: [
+          {
+            _type: "span",
+            _key: "s4-p1-span",
+            text: "We deploy and manage Microsoft 365 Business Premium — Defender, Azure AD, Intune, Information Protection — so every login, device, and document is governed by the same set of smart, auditable policies.",
+            marks: [],
+          },
+        ],
         markDefs: [],
         style: "normal",
       },
@@ -136,7 +167,14 @@ const fallbackServices: Service[] = [
       {
         _type: "block",
         _key: "s5-p1",
-        children: [{ _type: "span", _key: "s5-p1-span", text: "We ensure your critical data is backed up and recoverable, so your business can quickly recover from unexpected events.", marks: [] }],
+        children: [
+          {
+            _type: "span",
+            _key: "s5-p1-span",
+            text: "Automated, encrypted, offsite backups of physical servers and Microsoft 365 data — yes, Microsoft doesn't fully back up your cloud, we handle that. When ransomware or hardware failure hits, recovery is measured in hours, not weeks.",
+            marks: [],
+          },
+        ],
         markDefs: [],
         style: "normal",
       },
@@ -171,7 +209,7 @@ export default async function Home() {
             "@type": "LocalBusiness",
             name: "Trust Point IT Solutions",
             description:
-              "Managed IT services for growing businesses. Proactive IT management, cybersecurity, cloud support, and more.",
+              "Managed IT services for growing businesses. A layered security and support stack built for one fixed monthly price.",
             url: "https://trustpointitsolutions.com",
             serviceType: "Managed IT Services",
           }),
@@ -184,7 +222,9 @@ export default async function Home() {
       />
       <Stats />
       <Services heading={homePage.servicesHeading} services={services} />
+      <StackEffect />
       <Process />
+      <OnePrice />
       <TrustedPartner
         heading={homePage.trustedPartner.heading}
         body={homePage.trustedPartner.body}

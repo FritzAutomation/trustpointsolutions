@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LegalLink } from "@/types";
 
 interface FooterProps {
@@ -18,13 +19,13 @@ export default function Footer({
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           {/* Brand mark */}
           <div className="flex items-center gap-2.5">
-            <svg className="h-6 w-6 text-cyan/80" viewBox="0 0 32 32" fill="none">
-              <path
-                d="M16 3l13 7.5v11L16 29 3 21.5v-11L16 3z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
+            <Image
+              src="/logos/logo-mark.png"
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 opacity-90"
+            />
             <span className="font-display text-sm font-medium text-white/80">
               {companyName}
             </span>
