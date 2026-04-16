@@ -15,9 +15,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Trust Point IT Solutions",
+  title: {
+    default: "Trust Point IT Solutions",
+    template: "%s | Trust Point IT Solutions",
+  },
   description:
     "Managed IT services for growing businesses. Proactive IT management, cybersecurity, cloud support, and more.",
+  metadataBase: new URL("https://trustpointitsolutions.com"),
+  openGraph: {
+    title: "Trust Point IT Solutions",
+    description:
+      "Managed IT services for growing businesses. Proactive IT management, cybersecurity, cloud support, and more.",
+    url: "https://trustpointitsolutions.com",
+    siteName: "Trust Point IT Solutions",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default async function RootLayout({
